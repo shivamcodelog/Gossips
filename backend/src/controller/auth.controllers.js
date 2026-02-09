@@ -5,6 +5,7 @@ import bcrypt from "bcryptjs"
 
 import {ENV} from "../../lib/env.js";
 import { profile } from "console";
+import cloudinary from "../lib/cloudinary.js"
 
 export const signup = async (req, res) => {
     const { username, email, password } = req.body;
@@ -78,6 +79,10 @@ export const login = async (req,res)=>{
 
     const {email,password} = req.body
 
+    if (!email || !password){
+        return res.status(400).json({message:"Email and password are required"})
+    }
+
     try {
 
         const user = await User.findOne({email})
@@ -105,10 +110,20 @@ export const login = async (req,res)=>{
 
 };
 
-
-
 export const logout = async (_,res)=>{
     // res.cookie("jwt",token,  that jwt word must be matching
     res.cookie("jwt","", {maxAge:0});
     res.status(200).json({message:"Logged out successfully !"})
+};
+
+export const updateProfile =async (req,res)=>{
+
+    try {
+
+        const {profilePic}= req.body;
+        
+        
+    } catch (error) {
+        
+    }
 };
