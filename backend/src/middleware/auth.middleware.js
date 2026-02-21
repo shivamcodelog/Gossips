@@ -1,12 +1,12 @@
-import { jwt } from "jsonwebtoken";
-import User from "../models/User.models.js";
-import {ENV} from "../lib/env.js"
+import jwt from "jsonwebtoken";
+import {User} from "../models/User.models.js";
+import {ENV} from "../../lib/env.js"
 
 export const protectRoute = async (req,res,next)=>{
 
     try {
 
-        const token =req.cookie.jwt
+        const token =req.cookies.jwt
         if (!token) return res.status(401).json({message:"Unathorised - No token provided"})    
         
         const decoded =jwt.verify(token , ENV.JWT_SECRET)
@@ -15,7 +15,7 @@ export const protectRoute = async (req,res,next)=>{
         const user =await User.findById(decoded.userId).select("-password")
         if(!user) return res.status(404).json({message:"User not found"})
 
-        res.user=user
+        req.user=user
         next()
             
     } catch (error) {
