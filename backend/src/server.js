@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import authRoute from "./Routes/auth.route.js"
+import messageRoute from "./Routes/message.route.js"
 import path from "path";
 import connectDB  from './db/db.js';
 import cookieParser from "cookie-parser"
@@ -18,6 +19,7 @@ app.use(express.json())  //req.body
 app.use(cookieParser())
 
 app.use("/api/auth", authRoute)
+app.use("/api/message", messageRoute)
 
 //make ready for deployment 
 if (process.env.NODE_ENV ==="production")
